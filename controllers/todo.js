@@ -15,7 +15,6 @@ module.exports.todoList = function(req, res, next) {
             res.render('todo/list', {
                 title: 'To-Do List', 
                 TodoList: todoList,
-                userName: req.user ? req.user.username : ''
             })            
         }
     });
@@ -61,7 +60,7 @@ module.exports.displayEditPage = (req, res, next) => {
             //show the edit view
             res.render('todo/add_edit', {
                 title: 'Edit Item', 
-                todo: taskToEdit
+                todo: taskToEdit,
             })
         }
     });
