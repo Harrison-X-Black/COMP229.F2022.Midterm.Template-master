@@ -48,6 +48,23 @@ module.exports.details = (req, res, next) => {
 module.exports.displayEditPage = (req, res, next) => {
     
     // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+    Inventory.findById(id, (err, objToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('inventory/add_edit', {
+                title: 'Edit Item', 
+                item: objToEdit
+            })
+        }
+    });
 
 }
 
@@ -73,13 +90,32 @@ module.exports.processEditPage = (req, res, next) => {
 module.exports.performDelete = (req, res, next) => {
 
     // ADD YOUR CODE HERE
+    let id = req.params.id;
 
+    Inventory.remove({_id: id}, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            res.redirect('/inventory/list');
+        }
+    });
 }
 
 // Renders the Add form using the add_edit.ejs template
 module.exports.displayAddPage = (req, res, next) => {
 
     // ADD YOUR CODE HERE          
+    let newItem = Inventory();
+
+    res.render('inventory/add_edit', {
+        title: 'Add a new Item',
+        item: newItem
+    })   
 
 }
 
