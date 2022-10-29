@@ -48,6 +48,23 @@ module.exports.details = (req, res, next) => {
 module.exports.displayEditPage = (req, res, next) => {
     
     // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+    TodoModel.findById(id, (err, taskToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('todo/add_edit', {
+                title: 'Edit Item', 
+                todo: taskToEdit
+            })
+        }
+    });
 
 }
 
@@ -66,6 +83,18 @@ module.exports.processEditPage = (req, res, next) => {
     });
 
     // ADD YOUR CODE HERE
+    TodoModel.updateOne({_id: id}, updatedTodo, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh list
+            res.redirect('/todo/list');
+        }
+    });
 
 }
 
@@ -73,6 +102,20 @@ module.exports.processEditPage = (req, res, next) => {
 module.exports.performDelete = (req, res, next) => {
 
     // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+    TodoModel.remove({_id: id}, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            res.redirect('/todo/list');
+        }
+    });
 
 }
 
