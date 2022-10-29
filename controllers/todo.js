@@ -80,7 +80,12 @@ module.exports.performDelete = (req, res, next) => {
 module.exports.displayAddPage = (req, res, next) => {
 
     // ADD YOUR CODE HERE          
+    let newTask = TodoModel();
 
+    res.render('todo/add_edit', {
+        todo: newTask, 
+        title: 'Enter Task'
+    })   
 }
 
 // Processes the data submitted from the Add form to create a new todo
@@ -96,5 +101,18 @@ module.exports.processAddPage = (req, res, next) => {
     });
 
     // ADD YOUR CODE HERE
+    TodoModel.create(newTodo, (err, task) =>{
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            console.log(task);
+            res.redirect('/todo/list');
+        }
+    });
     
 }
